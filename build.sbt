@@ -19,11 +19,12 @@ val defaultVersions = Map(
   "firrtl" -> "1.2-SNAPSHOT",
   "chisel3" -> "3.2-SNAPSHOT",
   "treadle" -> "1.1-SNAPSHOT",
-  "chisel-iotesters" -> "1.3-SNAPSHOT"
+  "chisel-iotesters" -> "1.3-SNAPSHOT",
+  "chisel-testers2"  -> "0.1-SNAPSHOT"
   )
 
 
-libraryDependencies ++= Seq("firrtl","chisel3", "treadle", "chisel-iotesters").map {
+libraryDependencies ++= Seq("firrtl", "chisel3", "treadle", "chisel-iotesters", "chisel-testers2").map {
   dep: String => org %% dep % sys.props.getOrElse(dep + "Version", defaultVersions(dep)) }
 
 // Linear aglebra 
