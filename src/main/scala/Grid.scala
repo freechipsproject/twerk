@@ -5,20 +5,19 @@ package tpu_pkg
 import chisel3._
 import chisel3.util.{Valid}
 import Cfg._
+import Zero.ops._
 
 // 2D grid of Nodes
 class Grid[A <: Data, B <: Data] (inType:A, outType:B, xlen:Int, ylen:Int) extends Module {
 
   val io  = IO (new GridIO(inType, outType, xlen, ylen))
-  val zero  = 0.U(outType.getWidth.W).asTypeOf(outType)
+  val zeroval  = 0.U(outType.getWidth.W).asTypeOf(outType)
 
   for (i <- 0 until ylen) {
     io.dout(i).valid := false.B 
-    //io.dout(i).bits.data := Zero.zero // FIXME why wouldn't that work ?
-    io.dout(i).bits.data := zero
+    io.dout(i).bits.data := Zero[UInt].zero 
   }
   
-
 }
 
 // Verilator wrapper for Grid 

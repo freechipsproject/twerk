@@ -2,11 +2,12 @@
 
 import chisel3._
 import chisel3.core.{FixedPoint => FP}
+import simulacrum._
 
 package object Cfg {
 
   // Test type
-  val testType  = "verilog" // "native", "debug" , "verilog"
+  val testType  = "native" // "native", "debug" , "verilog"
   val saveDump  = "on"  // "on", "off"
 
   // Grid Setup 
@@ -20,9 +21,28 @@ package object Cfg {
   // Fractional bit size
   val qin   = 8
   val qout  = 12
-  val dtype = "sint"
+  val dtype = "uint"
 
   println (s"Datatype = $dtype")
+  
+  //--------------------------------------------------------------------------------------------
+  // Define a Zero element typeclass
+  //--------------------------------------------------------------------------------------------
+  @typeclass trait Zero[A] {
+    def zero:A
+  }
+
+  object Zero {
+
+    implicit val UIntZero: Zero[UInt] = new Zero[UInt] {
+      def zero = 0.U
+    }
+    
+    implicit val SIntZero: Zero[SInt] = new Zero[SInt] {
+      def zero = 0.S
+    }
+  }
+  
   
   val types  = dtype match {
 
@@ -39,27 +59,5 @@ package object Cfg {
   //def outType = types._2
   val inType  = UInt(dwin.W)
   val outType = UInt(dwout.W)
-  
-  //--------------------------------------------------------------------------------------------
-  // Define a Zero element typeclass
-  //--------------------------------------------------------------------------------------------
-  
-  trait Zero[A] {
-    def zero:A
-  }
-
-  object Zero {
-
-    def apply[A] (implicit A:Zero[A]):Zero[A] = A
-
-    implicit val UIntZero:Zero[UInt] = new Zero[UInt] {
-      def zero:UInt = 0.U
-    }
-    
-    implicit val SIntZero:Zero[SInt] = new Zero[SInt] {
-      def zero:SInt = 0.S
-    }
-
-  }
   
 }

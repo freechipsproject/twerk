@@ -31,17 +31,23 @@ libraryDependencies ++= Seq("firrtl", "chisel3", "treadle", "chisel-iotesters", 
 libraryDependencies ++= Seq (
   "org.la4j" % "la4j" % "0.6.0",
   "org.scalaz" %% "scalaz-zio" % "1.0-RC4",
+  "com.github.mpilquist" %% "simulacrum" % "0.16.0",
+  "com.github.pureconfig" %% "pureconfig" % "0.10.2",
 )
 
 scalacOptions ++= Seq (
   "-deprecation",
   "-feature",
+  "-Xfuture",
   "-unchecked",
   "-Xsource:2.11",
+  "-language:implicitConversions",
   "-language:reflectiveCalls",
   "-Ypartial-unification",
   "-Xfatal-warnings",
 )
+
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
 
 // Lint
 scapegoatVersion in ThisBuild := "1.3.8"
